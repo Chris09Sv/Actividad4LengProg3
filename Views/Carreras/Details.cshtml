@@ -1,0 +1,32 @@
+﻿@using Actividad4LengProg3.Models
+@model CarreraViewModel
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+<h2 class="mb-3 text">
+    Carrera
+</h2>
+
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Recinto</dt>
+            <dd class="col-sm-9">@Model.Nombre</dd>
+            <dt class="col-sm-3">Cantidad de Materias</dt>
+            <dd class="col-sm-9">@Model.CantidadMaterias</dd>
+            <dt class="col-sm-3">Cantidad de Creditos</dt>
+            <dd class="col-sm-9">@Model.CantidadCreditos</dd>
+        </dl>
+    </div>
+</div>
+<div class="d-flex gap-2">
+    <a class="btn btn-primary btn-sm"
+       asp-action="Edit"
+       asp-route-codigo="@Model.Codigo">
+        Editar
+    </a>
+    <a class="btn btn-secondary btn-sm" asp-action="Index">Regresar</a>
+</div>

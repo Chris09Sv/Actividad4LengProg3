@@ -1,0 +1,10 @@
+﻿@using Actividad4LengProg3.Models
+@model CarreraViewModel
+@{
+    ViewData["Title"] = "Editar";
+    ViewData["FormAction"] = "Edit";
+    ViewData["SubmitText"] = "Guardar";
+    ViewData["ShowTitle"] = true;
+    ViewData["TitleText"] = "Editar Carrera";
+}
+@await Html.PartialAsync("FrmCarreras", Model)

@@ -1,0 +1,142 @@
+﻿@using Actividad4LengProg3.Models
+@model IEnumerable<CarreraViewModel>
+@{
+    ViewData["Title"] = "Carreras";
+}
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <div>
+        <h2 class="mb-0">Carreras</h2>
+        <small class="text-muted">Listado en memoria</small>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Nuevo
+        </a>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-clockwise"></i> Actualizar
+        </a>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Alerts")
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="row g-2 align-items-center mb-3">
+            <div class="col-12 col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input id="txtBuscar" type="text" class="form-control" placeholder="Buscar por nombre">
+                </div>
+            </div>
+            <div class="col-12 col-md-6 text-md-end">
+                <span class="text-muted" id="lblResumen"></span>
+            </div>
+        </div>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-info mb-0">
+                No hay Carreras registradas aún.
+                <a asp-action="Create" class="alert-link">Agregar el primero</a>.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table id="tblCarreras" class="table table-sm table-hover align-middle">
+                    <thead class="table-light position-sticky top-0">
+                        <tr>
+                            <th style="width:72px;">ID</th>
+                            <th>Nombre</th>
+                            <th>Cantidad de Materias</th>>
+                            <th>Cantidad de Crdditos</th>>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><span class="badge bg-secondary">@item.Codigo</span></td>
+                                <td class="fw-semibold">@item.Nombre</td>
+                                <td><code>@item.CantidadMaterias</code></td>
+                                <td><code>@item.CantidadCreditos</code></td>
+
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a asp-action="Details" asp-route-id="@item.Codigo" class="btn btn-outline-primary" title="Ver">
+                                            <i class="bi bi-eye">Detalles</i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.Codigo" class="btn btn-outline-warning" title="Editar">
+                                            <i class="bi bi-pencil">Editar
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Codigo" class="btn btn-outline-danger" title="Delete">
+                                            <i class="bi bi-trash">Eliminar</i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        #tblCarreras thead th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .text-truncate {
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        (function () {
+            const input = document.getElementById('txtBuscar');
+            const table = document.getElementById('tblCarreras');
+            const rows = table ? table.querySelectorAll('tbody tr') : [];
+            const lbl = document.getElementById('lblResumen');
+
+            function normalizar(txt) {
+                return (txt || '')
+                    .toString()
+                    .toLowerCase()
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            }
+
+            function filtrar() {
+                const q = normalizar(input.value);
+                let visibles = 0;
+
+                rows.forEach(tr => {
+                    const texto = normalizar(tr.innerText);
+                    const show = !q || texto.includes(q);
+                    tr.style.display = show ? '' : 'none';
+                    if (show) visibles++;
+                });
+
+                const total = rows.length;
+                lbl.textContent = total ? `Mostrando ${visibles} de ${total}` : '';
+            }
+
+            if (input && rows.length) {
+                input.addEventListener('input', filtrar);
+                filtrar();
+            }
+        })();
+    </script>
+}

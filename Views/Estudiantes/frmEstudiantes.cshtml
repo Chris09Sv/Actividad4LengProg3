@@ -1,0 +1,138 @@
+﻿@using Actividad4LengProg3.Models
+@model EstudiantesViewModel
+@{
+    // Parámetros que puedes setear desde la vista padre (Registrar/Edit)
+    var formAction = (string?)ViewData["FormAction"] ?? "Registrar";
+    var submitText = (string?)ViewData["SubmitText"] ?? "Guardar";
+    var showTitle  = (bool?)ViewData["ShowTitle"] ?? true;
+    var titleText  = (string?)ViewData["TitleText"] ?? (formAction == "Registrar" ? "Registrar Estudiante" : "Editar Estudiante");
+}
+
+@if (showTitle)
+{
+    <h2 class="mb-3">@titleText</h2>
+}
+
+@await Html.PartialAsync("_Alerts")
+
+<form asp-action="@formAction" method="post" class="card p-3 shadow-sm">
+    @Html.AntiForgeryToken()
+    @* clave oculta para Edit *@
+    @if (Model?.id > 0)
+    {
+        <input type="hidden" asp-for="id" />
+    }
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Nombre_Completo" class="form-label"></label>
+            <input asp-for="Nombre_Completo" class="form-control" />
+            <span asp-validation-for="Nombre_Completo" class="text-danger"></span>
+        </div>
+
+@*         <div class="col-md-6">
+            <label asp-for="Matricula" class="form-label"></label>
+            <input asp-for="Matricula" class="form-control"/>
+            <span asp-validation-for="Matricula" class="text-danger"></span>
+        </div> *@
+
+        <div class="col-md-4">
+            <label asp-for="Carrera" class="form-label"></label>
+            <select asp-for="Carrera" class="form-select" asp-items="ViewBag.Carrera">
+                <option value="">-- Seleccione --</option>
+            </select>
+            <span asp-validation-for="Carrera" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Recinto" class="form-label"></label>
+            <select asp-for="Recinto" class="form-select" asp-items="ViewBag.Recinto">
+                <option value="">-- Seleccione --</option>
+            </select>
+            <span asp-validation-for="Recinto" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Genero" class="form-label"></label>
+            <select asp-for="Genero" class="form-select" asp-items="ViewBag.Generos">
+                <option value="">-- Seleccione --</option>
+            </select>
+            <span asp-validation-for="Genero" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Turno" class="form-label"></label>
+            <select asp-for="Turno" class="form-select" asp-items="ViewBag.Turno">
+                <option value="">-- Seleccione --</option>
+            </select>
+            <span asp-validation-for="Turno" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Correo_Institucional" class="form-label"></label>
+            <input asp-for="Correo_Institucional" class="form-control" />
+            <span asp-validation-for="Correo_Institucional" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Celular" class="form-label"></label>
+            <input asp-for="Celular" class="form-control" />
+            <span asp-validation-for="Celular" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Telefono" class="form-label"></label>
+            <input asp-for="Telefono" class="form-control" />
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Direccion" class="form-label"></label>
+            <input asp-for="Direccion" class="form-control" />
+            <span asp-validation-for="Direccion" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Fecha_Nacimiento" class="form-label"></label>
+            <input asp-for="Fecha_Nacimiento" type="date" class="form-control" />
+            <span asp-validation-for="Fecha_Nacimiento" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4 form-check mt-4">
+            <input class="form-check-input" asp-for="Becado" id="chkBecado" />
+            <label class="form-check-label" asp-for="Becado"></label>
+        </div>
+
+        <div class="col-md-4" id="pctGroup">
+            <label asp-for="porcentaje_Beca" class="form-label"></label>
+            <select asp-for="porcentaje_Beca" class="form-select" asp-items="ViewBag.PorcentajesBeca" id="ddlBeca">
+                <option value="0">0%</option>
+            </select>
+            <span asp-validation-for="porcentaje_Beca" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary">@submitText</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function(){
+            const chk = document.getElementById('chkBecado');
+            const ddl = document.getElementById('ddlBeca');
+            function toggleBeca() {
+                const enabled = chk.checked;
+                ddl.disabled = !enabled;
+                if (!enabled) ddl.value = "0";
+            }
+            if (chk && ddl) {
+                chk.addEventListener('change', toggleBeca);
+                toggleBeca(); // estado inicial
+            }
+        })();
+    </script>
+}

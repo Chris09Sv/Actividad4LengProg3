@@ -1,0 +1,34 @@
+﻿@using Actividad4LengProg3.Models
+@model CarreraViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Carrera";
+}
+
+<h2 class="mb-3 text-danger">Eliminar Carrera</h2>
+
+<div class="alert alert-warning">
+    ¿Seguro que deseas eliminar a <strong>@Model.Nombre</strong>
+    <span class="badge bg-secondary">@Model.Codigo</span>? Esta acción no se puede deshacer.
+</div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Carrera</dt>
+            <dd class="col-sm-9">@Model.Nombre</dd>
+            <dt class="col-sm-3">Cantidad de Creditos</dt>
+            <dd class="col-sm-9">@Model.CantidadCreditos</dd>
+            <dt class="col-sm-3">Cantidad de Materias</dt>
+            <dd class="col-sm-9">@Model.CantidadMaterias</dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" asp-route-id="@Model.Codigo" method="post" class="d-flex gap-2">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash"></i> Eliminar
+    </button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>

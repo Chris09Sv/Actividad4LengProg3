@@ -1,0 +1,41 @@
+﻿@using Actividad4LengProg3.Models
+@model EstudiantesViewModel
+@{
+    ViewData["Title"] = "Eliminar Estudiante";
+}
+
+<h2 class="mb-3 text-danger">Eliminar Estudiante</h2>
+
+<div class="alert alert-warning">
+    ¿Seguro que deseas eliminar a <strong>@Model.Nombre_Completo</strong> con matrícula
+    <span class="badge bg-secondary">@Model.Matricula</span>? Esta acción no se puede deshacer.
+</div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Matrícula</dt>
+            <dd class="col-sm-9">@Model.Matricula</dd>
+            <dt class="col-sm-3">Carrera</dt>
+            <dd class="col-sm-9">@Model.Carrera</dd>
+            <dt class="col-sm-3">Recinto</dt>
+            <dd class="col-sm-9">@Model.Recinto</dd>
+            <dt class="col-sm-3">Correo</dt>
+            <dd class="col-sm-9">@Model.Correo_Institucional</dd>
+            <dt class="col-sm-3">Teléfono</dt>
+            <dd class="col-sm-9">@Model.Celular</dd>
+            <dt class="col-sm-3">Beca</dt>
+            <dd class="col-sm-9">
+                @(Model.Becado ? $"{Model.porcentaje_Beca}%" : "No")
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" asp-route-matricula="@Model.Matricula" method="post" class="d-flex gap-2">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash"></i> Eliminar
+    </button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>

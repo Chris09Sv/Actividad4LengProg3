@@ -1,0 +1,10 @@
+﻿@using Actividad4LengProg3.Models
+@model EstudiantesViewModel
+@{
+    ViewData["Title"] = "Registrar";
+    ViewData["FormAction"] = "Registrar";
+    ViewData["SubmitText"] = "Guardar";
+    ViewData["ShowTitle"] = true;
+    ViewData["TitleText"] = "Registrar Estudiante";
+}
+@await Html.PartialAsync("frmEstudiantes", Model)

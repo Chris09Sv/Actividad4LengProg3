@@ -1,0 +1,10 @@
+﻿@using Actividad4LengProg3.Models
+@model RecintoViewModel
+@{
+    ViewData["Title"] = "Registrar";
+    ViewData["FormAction"] = "Create";
+    ViewData["SubmitText"] = "Guardar";
+    ViewData["ShowTitle"] = true;
+    ViewData["TitleText"] = "Registrar Recinto";
+}
+@await Html.PartialAsync("FrmRecintos", Model)
